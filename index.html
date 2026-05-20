@@ -1317,7 +1317,7 @@ body {
 </div>
 
 <!-- ===== ADMIN BAR ===== -->
-<div id="admin-bar" class="visible">
+<div id="admin-bar">
   <span class="admin-bar-title">Edit Mode</span>
   <button class="admin-btn" onclick="Admin.addGalleryPhoto()">+ Add Photo</button>
   <button class="admin-btn" onclick="Admin.showConfigEditor()">Site Settings</button>
@@ -2503,13 +2503,12 @@ document.getElementById('admin-password-input').addEventListener('keydown', (e) 
   if (e.key === 'Escape') Admin.closeModal();
 });
 
-// Secret admin trigger: Ctrl+A or Ctrl+Shift+A
+// Edit mode toggle: Ctrl+E (Windows/Linux) or Cmd+E (Mac)
 document.addEventListener('keydown', (e) => {
-  const isCtrlA = e.ctrlKey && !e.shiftKey && e.key === 'a';
-  const isCtrlShiftA = e.ctrlKey && e.shiftKey && e.key === 'A';
-  if (isCtrlA || isCtrlShiftA) {
+  const isEditShortcut = (e.ctrlKey || e.metaKey) && e.key === 'e';
+  if (isEditShortcut) {
     e.preventDefault();
-    if (!Admin._active) Admin.openModal();
+    if (!Admin._active) Admin.enterAdminMode();
     else Admin.exitAdminMode();
   }
 });
@@ -2524,7 +2523,7 @@ document.getElementById('hero-label').addEventListener('click', () => {
   heroLabelTimer = setTimeout(() => { heroLabelClicks = 0; }, 1500);
   if (heroLabelClicks >= 5) {
     heroLabelClicks = 0;
-    Admin.openModal();
+    Admin.enterAdminMode();
   }
 });
 
