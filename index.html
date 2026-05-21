@@ -492,6 +492,153 @@ body {
 }
 
 /* =========================================
+   FUN BUTTONS (Candle & Fireworks)
+   ========================================= */
+.fun-btns {
+  display: flex;
+  gap: 1rem;
+  flex-wrap: wrap;
+  justify-content: center;
+  margin-bottom: 2.5rem;
+}
+.fun-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.65rem 1.4rem;
+  background: var(--glass);
+  border: 1px solid rgba(176,123,176,0.45);
+  border-radius: 30px;
+  color: var(--cream);
+  font-family: var(--font-body);
+  font-size: 0.85rem;
+  font-weight: 500;
+  letter-spacing: 0.05em;
+  cursor: pointer;
+  transition: background 0.2s, border-color 0.2s, transform 0.15s;
+  backdrop-filter: blur(8px);
+}
+.fun-btn:hover { background: var(--glass-hover); border-color: var(--gold-light); transform: translateY(-2px); }
+.fun-btn:active { transform: scale(0.97); }
+
+/* Candle modal */
+#candle-modal {
+  display: none;
+  position: fixed;
+  inset: 0;
+  z-index: 10000;
+  align-items: center;
+  justify-content: center;
+  background: rgba(10,5,24,0.82);
+  backdrop-filter: blur(6px);
+}
+#candle-modal.visible { display: flex; }
+.candle-modal-box {
+  position: relative;
+  background: linear-gradient(160deg, rgba(30,15,55,0.98), rgba(18,8,35,0.98));
+  border: 1px solid rgba(176,123,176,0.4);
+  border-radius: 24px;
+  padding: 2.5rem 2rem 2rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.5rem;
+  max-width: 340px;
+  width: 90%;
+  box-shadow: 0 30px 80px rgba(0,0,0,0.6), 0 0 60px rgba(176,123,176,0.1);
+}
+.candle-modal-close {
+  position: absolute;
+  top: 0.75rem;
+  right: 1rem;
+  background: none;
+  border: none;
+  color: rgba(255,255,255,0.35);
+  font-size: 1.4rem;
+  cursor: pointer;
+  line-height: 1;
+  transition: color 0.2s;
+}
+.candle-modal-close:hover { color: var(--gold-light); }
+.candle-modal-title { font-family: var(--font-script); font-size: 1.5rem; color: var(--gold-light); margin: 0; }
+
+/* Candle scene */
+.candle-scene { position: relative; width: 120px; height: 200px; }
+.candle-flame-group {
+  position: absolute;
+  left: 50%;
+  bottom: 112px;
+  width: 36px;
+  height: 60px;
+  transform: translateX(-50%);
+  transform-origin: center bottom;
+  animation: flameFlicker 1.8s ease-in-out infinite;
+}
+@keyframes flameFlicker {
+  0%   { transform: translateX(-50%) scaleX(1)    scaleY(1)    skewX(0deg); }
+  15%  { transform: translateX(-50%) scaleX(0.92) scaleY(1.06) skewX(2deg); }
+  30%  { transform: translateX(-50%) scaleX(1.06) scaleY(0.96) skewX(-3deg); }
+  45%  { transform: translateX(-50%) scaleX(0.95) scaleY(1.08) skewX(1deg); }
+  60%  { transform: translateX(-50%) scaleX(1.04) scaleY(0.97) skewX(-2deg); }
+  75%  { transform: translateX(-50%) scaleX(0.93) scaleY(1.05) skewX(3deg); }
+  90%  { transform: translateX(-50%) scaleX(1.03) scaleY(0.99) skewX(-1deg); }
+  100% { transform: translateX(-50%) scaleX(1)    scaleY(1)    skewX(0deg); }
+}
+.candle-flame-group.blown-out { animation: flameOut 0.6s ease-out forwards; }
+@keyframes flameOut {
+  0%   { opacity: 1; transform: translateX(-50%) scaleX(1) scaleY(1); }
+  60%  { opacity: 0.4; transform: translateX(-50%) scaleX(0.3) scaleY(0.4); }
+  100% { opacity: 0; transform: translateX(-50%) scaleX(0) scaleY(0); }
+}
+.candle-smoke {
+  position: absolute;
+  left: 50%;
+  bottom: 172px;
+  width: 6px;
+  height: 40px;
+  transform: translateX(-50%);
+  opacity: 0;
+  pointer-events: none;
+}
+.candle-smoke.rising { animation: smokeRise 2s ease-out forwards; }
+@keyframes smokeRise {
+  0%   { opacity: 0.7; transform: translateX(-50%) translateY(0) scaleX(1); }
+  50%  { opacity: 0.4; transform: translateX(-58%) translateY(-22px) scaleX(1.5); }
+  100% { opacity: 0;   transform: translateX(-42%) translateY(-48px) scaleX(2.2); }
+}
+.candle-glow {
+  position: absolute;
+  left: 50%;
+  bottom: 110px;
+  width: 80px;
+  height: 80px;
+  transform: translateX(-50%);
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(255,200,80,0.38) 0%, transparent 70%);
+  animation: glowPulse 1.8s ease-in-out infinite;
+  pointer-events: none;
+}
+@keyframes glowPulse {
+  0%, 100% { opacity: 0.8; transform: translateX(-50%) scale(1); }
+  50%       { opacity: 1;   transform: translateX(-50%) scale(1.18); }
+}
+.candle-glow.out { display: none; }
+.candle-action-btn {
+  padding: 0.6rem 1.5rem;
+  border-radius: 24px;
+  border: 1px solid rgba(176,123,176,0.5);
+  background: var(--glass);
+  color: var(--cream);
+  font-family: var(--font-body);
+  font-size: 0.85rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s;
+  letter-spacing: 0.04em;
+}
+.candle-action-btn:hover { background: var(--glass-hover); border-color: var(--gold-light); }
+
+/* =========================================
    GALLERY SECTION
    ========================================= */
 #gallery {
@@ -1302,6 +1449,64 @@ body {
     }</style></head>
 <body style="background-image: linear-gradient(rgba(20, 10, 38, 0.72), rgba(12, 5, 24, 0.76)), url(&quot;data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22340%22%20height%3D%22340%22%20viewBox%3D%220%200%20340%20340%22%3E%0A%20%20%3Crect%20width%3D%22340%22%20height%3D%22340%22%20fill%3D%22%23fdf7ee%22%2F%3E%0A%20%20%3C!--%20Cooking%20pot%20--%3E%0A%20%20%3Cg%20transform%3D%22translate(72%2C82)%22%3E%0A%20%20%20%20%3Cpath%20d%3D%22M-35%2C8%20Q-33%2C56%200%2C62%20Q33%2C56%2035%2C8Z%22%20fill%3D%22%23a8cce8%22%20stroke%3D%22%2378a8c8%22%20stroke-width%3D%222%22%2F%3E%0A%20%20%20%20%3Cellipse%20cx%3D%220%22%20cy%3D%228%22%20rx%3D%2237%22%20ry%3D%2211%22%20fill%3D%22%2378a8c8%22%2F%3E%0A%20%20%20%20%3Crect%20x%3D%22-10%22%20y%3D%22-6%22%20width%3D%2220%22%20height%3D%2214%22%20rx%3D%227%22%20fill%3D%22%235888a8%22%2F%3E%0A%20%20%20%20%3Cpath%20d%3D%22M-35%2C4%20Q-53%2C4%20-53%2C18%20Q-53%2C32%20-35%2C29%22%20stroke%3D%22%2378a8c8%22%20stroke-width%3D%226%22%20fill%3D%22none%22%20stroke-linecap%3D%22round%22%2F%3E%0A%20%20%20%20%3Cpath%20d%3D%22M35%2C4%20Q53%2C4%2053%2C18%20Q53%2C32%2035%2C29%22%20stroke%3D%22%2378a8c8%22%20stroke-width%3D%226%22%20fill%3D%22none%22%20stroke-linecap%3D%22round%22%2F%3E%0A%20%20%20%20%3Cpath%20d%3D%22M-12%2C-6%20Q-16%2C-16%20-12%2C-24%22%20stroke%3D%22%2378a8c8%22%20stroke-width%3D%221.8%22%20fill%3D%22none%22%20stroke-linecap%3D%22round%22%20opacity%3D%220.55%22%2F%3E%0A%20%20%20%20%3Cpath%20d%3D%22M0%2C-6%20Q4%2C-16%200%2C-24%22%20stroke%3D%22%2378a8c8%22%20stroke-width%3D%221.8%22%20fill%3D%22none%22%20stroke-linecap%3D%22round%22%20opacity%3D%220.55%22%2F%3E%0A%20%20%20%20%3Cpath%20d%3D%22M12%2C-6%20Q8%2C-16%2012%2C-24%22%20stroke%3D%22%2378a8c8%22%20stroke-width%3D%221.8%22%20fill%3D%22none%22%20stroke-linecap%3D%22round%22%20opacity%3D%220.55%22%2F%3E%0A%20%20%3C%2Fg%3E%0A%20%20%3C!--%20Wooden%20spoon%20--%3E%0A%20%20%3Cg%20transform%3D%22translate(262%2C66)%20rotate(-42)%22%3E%0A%20%20%20%20%3Cellipse%20cx%3D%220%22%20cy%3D%22-7%22%20rx%3D%2213%22%20ry%3D%229%22%20fill%3D%22%23daa870%22%20stroke%3D%22%23b08048%22%20stroke-width%3D%221.5%22%2F%3E%0A%20%20%20%20%3Crect%20x%3D%22-3.5%22%20y%3D%222%22%20width%3D%227%22%20height%3D%2255%22%20rx%3D%223.5%22%20fill%3D%22%23b08048%22%2F%3E%0A%20%20%20%20%3Cline%20x1%3D%22-1%22%20y1%3D%2210%22%20x2%3D%22-1%22%20y2%3D%2250%22%20stroke%3D%22%23906028%22%20stroke-width%3D%221%22%20opacity%3D%220.35%22%2F%3E%0A%20%20%3C%2Fg%3E%0A%20%20%3C!--%20Tomato%20--%3E%0A%20%20%3Cg%20transform%3D%22translate(208%2C88)%22%3E%0A%20%20%20%20%3Ccircle%20cx%3D%220%22%20cy%3D%225%22%20r%3D%2224%22%20fill%3D%22%23ef5350%22%20stroke%3D%22%23c62828%22%20stroke-width%3D%221.5%22%2F%3E%0A%20%20%20%20%3Ccircle%20cx%3D%22-7%22%20cy%3D%22-3%22%20r%3D%226%22%20fill%3D%22rgba(255%2C255%2C255%2C0.18)%22%2F%3E%0A%20%20%20%20%3Cline%20x1%3D%220%22%20y1%3D%22-19%22%20x2%3D%220%22%20y2%3D%22-36%22%20stroke%3D%22%235a9848%22%20stroke-width%3D%222%22%2F%3E%0A%20%20%20%20%3Cpath%20d%3D%22M0%2C-19%20Q-13%2C-32%20-6%2C-40%20Q0%2C-34%200%2C-19%22%20fill%3D%22%235a9848%22%2F%3E%0A%20%20%20%20%3Cpath%20d%3D%22M0%2C-19%20Q13%2C-32%206%2C-40%20Q0%2C-34%200%2C-19%22%20fill%3D%22%238dc870%22%2F%3E%0A%20%20%20%20%3Cpath%20d%3D%22M0%2C-19%20Q-18%2C-24%20-17%2C-33%20Q-8%2C-28%200%2C-19%22%20fill%3D%22%235a9848%22%20opacity%3D%220.7%22%2F%3E%0A%20%20%3C%2Fg%3E%0A%20%20%3C!--%20Herb%20sprig%20large%20--%3E%0A%20%20%3Cg%20transform%3D%22translate(155%2C168)%22%3E%0A%20%20%20%20%3Cline%20x1%3D%220%22%20y1%3D%2232%22%20x2%3D%220%22%20y2%3D%22-20%22%20stroke%3D%22%235a9848%22%20stroke-width%3D%222.2%22%2F%3E%0A%20%20%20%20%3Cpath%20d%3D%22M0%2C22%20Q-23%2C8%20-10%2C-14%22%20fill%3D%22%238dc870%22%20stroke%3D%22%235a9848%22%20stroke-width%3D%221.5%22%2F%3E%0A%20%20%20%20%3Cpath%20d%3D%22M0%2C22%20Q23%2C8%2010%2C-14%22%20fill%3D%22%235a9848%22%20stroke%3D%22%233a7830%22%20stroke-width%3D%221.5%22%2F%3E%0A%20%20%20%20%3Cpath%20d%3D%22M0%2C4%20Q-19%2C-10%20-8%2C-26%22%20fill%3D%22%238dc870%22%20stroke%3D%22%235a9848%22%20stroke-width%3D%221.5%22%2F%3E%0A%20%20%20%20%3Cpath%20d%3D%22M0%2C4%20Q19%2C-10%208%2C-26%22%20fill%3D%22%235a9848%22%20stroke%3D%22%233a7830%22%20stroke-width%3D%221.5%22%2F%3E%0A%20%20%20%20%3Cpath%20d%3D%22M0%2C-20%20Q-8%2C-30%200%2C-36%20Q8%2C-30%200%2C-20Z%22%20fill%3D%22%238dc870%22%20stroke%3D%22%235a9848%22%20stroke-width%3D%221%22%2F%3E%0A%20%20%3C%2Fg%3E%0A%20%20%3C!--%20Frying%20pan%20--%3E%0A%20%20%3Cg%20transform%3D%22translate(248%2C250)%22%3E%0A%20%20%20%20%3Cellipse%20cx%3D%220%22%20cy%3D%220%22%20rx%3D%2244%22%20ry%3D%2221%22%20fill%3D%22%23c89ad8%22%20stroke%3D%22%239868b8%22%20stroke-width%3D%222%22%2F%3E%0A%20%20%20%20%3Cellipse%20cx%3D%220%22%20cy%3D%22-3%22%20rx%3D%2238%22%20ry%3D%2213%22%20fill%3D%22none%22%20stroke%3D%22rgba(255%2C255%2C255%2C0.2)%22%20stroke-width%3D%221.5%22%2F%3E%0A%20%20%20%20%3Crect%20x%3D%2244%22%20y%3D%22-8%22%20width%3D%2256%22%20height%3D%2216%22%20rx%3D%228%22%20fill%3D%22%239868b8%22%20stroke%3D%22%237848a0%22%20stroke-width%3D%221%22%2F%3E%0A%20%20%20%20%3Ccircle%20cx%3D%2292%22%20cy%3D%220%22%20r%3D%223.5%22%20fill%3D%22%237848a0%22%2F%3E%0A%20%20%3C%2Fg%3E%0A%20%20%3C!--%20Carrot%20--%3E%0A%20%20%3Cg%20transform%3D%22translate(65%2C254)%20rotate(14)%22%3E%0A%20%20%20%20%3Cpath%20d%3D%22M0%2C42%20Q-12%2C15%200%2C-12%20Q12%2C15%200%2C42Z%22%20fill%3D%22%23ff8c42%22%20stroke%3D%22%23d06020%22%20stroke-width%3D%221.5%22%2F%3E%0A%20%20%20%20%3Cline%20x1%3D%22-7%22%20y1%3D%2210%22%20x2%3D%227%22%20y2%3D%2210%22%20stroke%3D%22%23d06020%22%20stroke-width%3D%221%22%20opacity%3D%220.35%22%2F%3E%0A%20%20%20%20%3Cline%20x1%3D%22-9%22%20y1%3D%2222%22%20x2%3D%229%22%20y2%3D%2222%22%20stroke%3D%22%23d06020%22%20stroke-width%3D%221%22%20opacity%3D%220.35%22%2F%3E%0A%20%20%20%20%3Cpath%20d%3D%22M-6%2C-12%20Q-17%2C-29%20-9%2C-37%22%20stroke%3D%22%235a9848%22%20stroke-width%3D%222.2%22%20fill%3D%22none%22%20stroke-linecap%3D%22round%22%2F%3E%0A%20%20%20%20%3Cpath%20d%3D%22M0%2C-12%20Q0%2C-33%202%2C-40%22%20stroke%3D%22%235a9848%22%20stroke-width%3D%222.2%22%20fill%3D%22none%22%20stroke-linecap%3D%22round%22%2F%3E%0A%20%20%20%20%3Cpath%20d%3D%22M6%2C-12%20Q17%2C-27%2012%2C-35%22%20stroke%3D%22%235a9848%22%20stroke-width%3D%222.2%22%20fill%3D%22none%22%20stroke-linecap%3D%22round%22%2F%3E%0A%20%20%3C%2Fg%3E%0A%20%20%3C!--%20Spatula%20--%3E%0A%20%20%3Cg%20transform%3D%22translate(168%2C258)%20rotate(-52)%22%3E%0A%20%20%20%20%3Crect%20x%3D%22-12%22%20y%3D%22-30%22%20width%3D%2224%22%20height%3D%2222%22%20rx%3D%223%22%20fill%3D%22%23e8c8a0%22%20stroke%3D%22%23b89060%22%20stroke-width%3D%221.5%22%2F%3E%0A%20%20%20%20%3Cline%20x1%3D%22-5%22%20y1%3D%22-26%22%20x2%3D%22-5%22%20y2%3D%22-12%22%20stroke%3D%22%23b89060%22%20stroke-width%3D%221.5%22%2F%3E%0A%20%20%20%20%3Cline%20x1%3D%220%22%20y1%3D%22-26%22%20x2%3D%220%22%20y2%3D%22-12%22%20stroke%3D%22%23b89060%22%20stroke-width%3D%221.5%22%2F%3E%0A%20%20%20%20%3Cline%20x1%3D%225%22%20y1%3D%22-26%22%20x2%3D%225%22%20y2%3D%22-12%22%20stroke%3D%22%23b89060%22%20stroke-width%3D%221.5%22%2F%3E%0A%20%20%20%20%3Crect%20x%3D%22-6%22%20y%3D%22-8%22%20width%3D%2212%22%20height%3D%2210%22%20rx%3D%222%22%20fill%3D%22%23b89060%22%2F%3E%0A%20%20%20%20%3Crect%20x%3D%22-4%22%20y%3D%222%22%20width%3D%228%22%20height%3D%2244%22%20rx%3D%224%22%20fill%3D%22%23b89060%22%20stroke%3D%22%23907040%22%20stroke-width%3D%221%22%2F%3E%0A%20%20%3C%2Fg%3E%0A%20%20%3C!--%20Small%20herb%20--%3E%0A%20%20%3Cg%20transform%3D%22translate(36%2C202)%20rotate(-18)%22%3E%0A%20%20%20%20%3Cline%20x1%3D%220%22%20y1%3D%2222%22%20x2%3D%220%22%20y2%3D%22-12%22%20stroke%3D%22%235a9848%22%20stroke-width%3D%221.6%22%2F%3E%0A%20%20%20%20%3Cpath%20d%3D%22M0%2C14%20Q-14%2C4%20-6%2C-10%22%20fill%3D%22%238dc870%22%20stroke%3D%22%235a9848%22%20stroke-width%3D%221.2%22%2F%3E%0A%20%20%20%20%3Cpath%20d%3D%22M0%2C14%20Q14%2C4%206%2C-10%22%20fill%3D%22%235a9848%22%20stroke%3D%22%233a7830%22%20stroke-width%3D%221.2%22%2F%3E%0A%20%20%3C%2Fg%3E%0A%20%20%3C!--%20Bow-tie%20pasta%20accent%20--%3E%0A%20%20%3Cg%20transform%3D%22translate(162%2C36)%22%3E%0A%20%20%20%20%3Cpath%20d%3D%22M-20%2C0%20Q-8%2C-13%200%2C0%20Q8%2C13%2020%2C0%22%20fill%3D%22none%22%20stroke%3D%22%23daa870%22%20stroke-width%3D%222.5%22%20stroke-linecap%3D%22round%22%2F%3E%0A%20%20%20%20%3Cpath%20d%3D%22M-20%2C0%20Q-8%2C13%200%2C0%20Q8%2C-13%2020%2C0%22%20fill%3D%22none%22%20stroke%3D%22%23b08048%22%20stroke-width%3D%222.5%22%20stroke-linecap%3D%22round%22%2F%3E%0A%20%20%20%20%3Ccircle%20cx%3D%220%22%20cy%3D%220%22%20r%3D%223.5%22%20fill%3D%22%23b08048%22%2F%3E%0A%20%20%3C%2Fg%3E%0A%20%20%3C!--%20Small%20leaf%20right%20--%3E%0A%20%20%3Cg%20transform%3D%22translate(308%2C122)%20rotate(-28)%22%3E%0A%20%20%20%20%3Cpath%20d%3D%22M0%2C14%20Q-11%2C2%200%2C-12%20Q11%2C2%200%2C14Z%22%20fill%3D%22%238dc870%22%20stroke%3D%22%235a9848%22%20stroke-width%3D%221%22%2F%3E%0A%20%20%20%20%3Cline%20x1%3D%220%22%20y1%3D%2214%22%20x2%3D%220%22%20y2%3D%22-12%22%20stroke%3D%22%235a9848%22%20stroke-width%3D%221.5%22%2F%3E%0A%20%20%3C%2Fg%3E%0A%20%20%3C!--%20Spice%20dots%20--%3E%0A%20%20%3Ccircle%20cx%3D%22130%22%20cy%3D%2244%22%20r%3D%223.5%22%20fill%3D%22%23795548%22%20opacity%3D%220.32%22%2F%3E%0A%20%20%3Ccircle%20cx%3D%22172%22%20cy%3D%2260%22%20r%3D%222.5%22%20fill%3D%22%23795548%22%20opacity%3D%220.24%22%2F%3E%0A%20%20%3Ccircle%20cx%3D%22296%22%20cy%3D%22148%22%20r%3D%223%22%20fill%3D%22%23795548%22%20opacity%3D%220.28%22%2F%3E%0A%20%20%3Ccircle%20cx%3D%22320%22%20cy%3D%22205%22%20r%3D%222%22%20fill%3D%22%23ff8c42%22%20opacity%3D%220.38%22%2F%3E%0A%20%20%3Ccircle%20cx%3D%2242%22%20cy%3D%22148%22%20r%3D%223%22%20fill%3D%22%23795548%22%20opacity%3D%220.28%22%2F%3E%0A%20%20%3Ccircle%20cx%3D%2218%22%20cy%3D%22258%22%20r%3D%222.5%22%20fill%3D%22%23795548%22%20opacity%3D%220.22%22%2F%3E%0A%20%20%3Ccircle%20cx%3D%22215%22%20cy%3D%22172%22%20r%3D%223%22%20fill%3D%22%23795548%22%20opacity%3D%220.28%22%2F%3E%0A%20%20%3Ccircle%20cx%3D%22126%22%20cy%3D%22225%22%20r%3D%222.5%22%20fill%3D%22%23ef5350%22%20opacity%3D%220.28%22%2F%3E%0A%20%20%3Ccircle%20cx%3D%22310%22%20cy%3D%2270%22%20r%3D%222%22%20fill%3D%22%23795548%22%20opacity%3D%220.22%22%2F%3E%0A%20%20%3Ccircle%20cx%3D%2256%22%20cy%3D%22118%22%20r%3D%222%22%20fill%3D%22%23ff8c42%22%20opacity%3D%220.32%22%2F%3E%0A%20%20%3Ccircle%20cx%3D%22280%22%20cy%3D%22310%22%20r%3D%223%22%20fill%3D%22%23795548%22%20opacity%3D%220.25%22%2F%3E%0A%20%20%3Ccircle%20cx%3D%2290%22%20cy%3D%22330%22%20r%3D%222.5%22%20fill%3D%22%235a9848%22%20opacity%3D%220.3%22%2F%3E%0A%3C%2Fsvg%3E&quot;); background-size: auto, 300px 300px; background-attachment: fixed, fixed; background-repeat: no-repeat, repeat; background-position: center top, left top; ">
 
+<!-- ===== CANDLE MODAL ===== -->
+<div id="candle-modal">
+  <div class="candle-modal-box">
+    <button class="candle-modal-close" id="candle-close-btn" aria-label="Close">×</button>
+    <p class="candle-modal-title">Make a Wish 🌸</p>
+    <div class="candle-scene">
+      <div class="candle-glow" id="candle-glow"></div>
+      <div class="candle-flame-group" id="candle-flame">
+        <svg viewBox="0 0 36 60" fill="none" xmlns="http://www.w3.org/2000/svg" width="36" height="60">
+          <ellipse cx="18" cy="52" rx="10" ry="6" fill="rgba(255,140,0,0.35)"/>
+          <path d="M18 56 Q8 42 12 24 Q14 13 18 4 Q22 13 24 24 Q28 42 18 56Z" fill="url(#flameGrad)"/>
+          <path d="M18 52 Q13 40 15 27 Q16 19 18 12 Q20 19 21 27 Q23 40 18 52Z" fill="url(#innerFlameGrad)" opacity="0.9"/>
+          <defs>
+            <radialGradient id="flameGrad" cx="50%" cy="80%" r="60%">
+              <stop offset="0%" stop-color="#fff7a0"/>
+              <stop offset="30%" stop-color="#ffb830"/>
+              <stop offset="65%" stop-color="#ff6a00"/>
+              <stop offset="100%" stop-color="rgba(200,30,0,0)"/>
+            </radialGradient>
+            <radialGradient id="innerFlameGrad" cx="50%" cy="85%" r="55%">
+              <stop offset="0%" stop-color="#fffde0"/>
+              <stop offset="50%" stop-color="#fff0a0"/>
+              <stop offset="100%" stop-color="rgba(255,200,80,0)"/>
+            </radialGradient>
+          </defs>
+        </svg>
+      </div>
+      <div class="candle-smoke" id="candle-smoke">
+        <svg viewBox="0 0 6 40" width="6" height="40" xmlns="http://www.w3.org/2000/svg">
+          <path d="M3 40 Q6 30 3 20 Q0 10 3 0" stroke="rgba(200,200,220,0.75)" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+        </svg>
+      </div>
+      <svg viewBox="0 0 120 130" width="120" height="130" xmlns="http://www.w3.org/2000/svg" style="position:absolute;bottom:0;left:0;">
+        <ellipse cx="42" cy="32" rx="4" ry="10" fill="#d4a0c8" opacity="0.6" transform="rotate(-15 42 32)"/>
+        <ellipse cx="80" cy="28" rx="3" ry="8" fill="#c890bc" opacity="0.5" transform="rotate(10 80 28)"/>
+        <rect x="35" y="24" width="50" height="90" rx="6" fill="url(#candleGrad)"/>
+        <rect x="42" y="30" width="8" height="70" rx="4" fill="rgba(255,255,255,0.18)"/>
+        <ellipse cx="60" cy="24" rx="25" ry="7" fill="#e8b8d8"/>
+        <line x1="60" y1="24" x2="62" y2="10" stroke="#2a1a2a" stroke-width="2" stroke-linecap="round"/>
+        <ellipse cx="60" cy="114" rx="30" ry="8" fill="#7848a0"/>
+        <rect x="40" y="110" width="40" height="10" rx="4" fill="#9060b0"/>
+        <defs>
+          <linearGradient id="candleGrad" x1="0" y1="0" x2="1" y2="0">
+            <stop offset="0%" stop-color="#c080b8"/>
+            <stop offset="40%" stop-color="#e8aadc"/>
+            <stop offset="70%" stop-color="#d090c8"/>
+            <stop offset="100%" stop-color="#a868a0"/>
+          </linearGradient>
+        </defs>
+      </svg>
+    </div>
+    <button class="candle-action-btn" id="candle-blow-btn">💨 Blow it out</button>
+  </div>
+</div>
+
+<!-- Fireworks canvas -->
+<canvas id="fireworks-canvas" style="position:fixed;inset:0;width:100%;height:100%;pointer-events:none;z-index:9999;display:none;"></canvas>
+
 <!-- ===== ADMIN MODAL ===== -->
 <div id="admin-modal" role="dialog" aria-modal="true" aria-label="Admin Login" class="">
   <div class="admin-modal-box">
@@ -1407,6 +1612,10 @@ body {
     <span class="hero-label" id="hero-label" data-editable="" contenteditable="true" style="opacity: 1;">Happy Mother's Day ❤️</span>
     <h1 class="hero-name" id="hero-name" data-editable="" contenteditable="true" style="translate: none; rotate: none; scale: none; transform: translate(0px, 0px); opacity: 1;">Grammy</h1>
     <p class="hero-message" id="hero-message" data-editable="" contenteditable="true" style="translate: none; rotate: none; scale: none; transform: translate(0px, 0px); opacity: 1;">The Best Cook Ever — I Love You Grammy 🍳</p>
+    <div class="fun-btns">
+      <button class="fun-btn" id="candle-open-btn">🕯️ Light a Candle</button>
+      <button class="fun-btn" id="fireworks-btn">🎆 Fireworks</button>
+    </div>
     <div class="hero-scroll-hint" id="hero-scroll-hint" style="opacity: 1;">
       <div class="scroll-line"></div>
       <span>Scroll</span>
@@ -2663,6 +2872,133 @@ window.addEventListener('DOMContentLoaded', () => {
   Animations.init();
   spawnPetals();
 });
+
+/* =========================================
+   CANDLE LOGIC
+   ========================================= */
+(function () {
+  const modal   = document.getElementById('candle-modal');
+  const flame   = document.getElementById('candle-flame');
+  const smoke   = document.getElementById('candle-smoke');
+  const glow    = document.getElementById('candle-glow');
+  const blowBtn = document.getElementById('candle-blow-btn');
+  let lit = true;
+
+  document.getElementById('candle-open-btn').addEventListener('click', () => {
+    modal.classList.add('visible');
+    if (!lit) relightCandle();
+  });
+  document.getElementById('candle-close-btn').addEventListener('click', () => modal.classList.remove('visible'));
+  modal.addEventListener('click', (e) => { if (e.target === modal) modal.classList.remove('visible'); });
+
+  blowBtn.addEventListener('click', () => {
+    if (!lit) { relightCandle(); return; }
+    lit = false;
+    flame.classList.add('blown-out');
+    glow.classList.add('out');
+    smoke.classList.add('rising');
+    blowBtn.textContent = '🕯️ Relight';
+    setTimeout(() => { flame.style.visibility = 'hidden'; }, 620);
+  });
+
+  function relightCandle() {
+    lit = true;
+    flame.style.visibility = '';
+    flame.classList.remove('blown-out');
+    void flame.offsetWidth;
+    smoke.classList.remove('rising');
+    glow.classList.remove('out');
+    blowBtn.textContent = '💨 Blow it out';
+  }
+})();
+
+/* =========================================
+   FIREWORKS LOGIC
+   ========================================= */
+(function () {
+  const canvas = document.getElementById('fireworks-canvas');
+  const ctx    = canvas.getContext('2d');
+  let particles = [];
+  let animId    = null;
+  let clearTimer = null;
+  let running   = false;
+
+  const COLORS = ['#ff6b9d','#ffb830','#7ee8ff','#b07bb0','#e8aadc','#ffffff','#ff4d4d','#44ffaa','#ffd700','#cc88ff'];
+
+  function resize() { canvas.width = window.innerWidth; canvas.height = window.innerHeight; }
+  window.addEventListener('resize', resize);
+
+  function launchRocket() {
+    const x       = canvas.width * (0.15 + Math.random() * 0.7);
+    const targetY = canvas.height * (0.08 + Math.random() * 0.45);
+    const color   = COLORS[Math.floor(Math.random() * COLORS.length)];
+    const burst   = 55 + Math.floor(Math.random() * 55);
+    const spd     = 13 + Math.random() * 9;
+    let ry = canvas.height;
+
+    function step() {
+      ry -= spd;
+      particles.push({ x, y: ry, vx: 0, vy: 0, alpha: 0.55, color: '#fffbe0', radius: 1.8, decay: 0.06, gravity: 0 });
+      if (ry <= targetY) { explode(x, targetY, color, burst); }
+      else { requestAnimationFrame(step); }
+    }
+    step();
+  }
+
+  function explode(x, y, color, count) {
+    for (let i = 0; i < count; i++) {
+      const angle = (Math.PI * 2 * i / count) + (Math.random() - 0.5) * 0.5;
+      const spd   = 1.8 + Math.random() * 5.5;
+      particles.push({
+        x, y,
+        vx: Math.cos(angle) * spd,
+        vy: Math.sin(angle) * spd,
+        alpha: 1,
+        color: Math.random() < 0.18 ? '#ffffff' : color,
+        radius: 1.5 + Math.random() * 2.2,
+        decay: 0.011 + Math.random() * 0.013,
+        gravity: 0.055 + Math.random() * 0.045
+      });
+    }
+  }
+
+  function loop() {
+    ctx.fillStyle = 'rgba(0,0,0,0.16)';
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
+    particles = particles.filter(p => p.alpha > 0.015);
+    for (const p of particles) {
+      p.x += p.vx; p.y += p.vy; p.vy += p.gravity; p.vx *= 0.98; p.alpha -= p.decay;
+      ctx.globalAlpha = Math.max(0, p.alpha);
+      ctx.beginPath(); ctx.arc(p.x, p.y, p.radius, 0, Math.PI * 2); ctx.fillStyle = p.color; ctx.fill();
+    }
+    ctx.globalAlpha = 1;
+    animId = requestAnimationFrame(loop);
+  }
+
+  function startFireworks() {
+    resize();
+    canvas.style.display = 'block';
+    if (!running) { running = true; loop(); }
+    if (clearTimer) clearTimeout(clearTimer);
+
+    const count = 5 + Math.floor(Math.random() * 4);
+    for (let i = 0; i < count; i++) setTimeout(launchRocket, i * 360 + Math.random() * 180);
+
+    clearTimer = setTimeout(() => {
+      const fade = setInterval(() => {
+        if (particles.length === 0) {
+          clearInterval(fade);
+          cancelAnimationFrame(animId);
+          animId = null; running = false;
+          ctx.clearRect(0, 0, canvas.width, canvas.height);
+          canvas.style.display = 'none';
+        }
+      }, 120);
+    }, 4000);
+  }
+
+  document.getElementById('fireworks-btn').addEventListener('click', startFireworks);
+})();
 </script>
 
 
