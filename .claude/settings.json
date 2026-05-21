@@ -1,0 +1,10 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(git -C \"/Users/codymasumiya/Desktop/grammys mothers day gift final/mothersday-website-for-grammy\" add index.html IMG_0804.mp4)",
+      "Bash(git -C '/Users/codymasumiya/Desktop/grammys mothers day gift final/mothersday-website-for-grammy' commit -m ' *)",
+      "Bash(git -C \"/Users/codymasumiya/Desktop/grammys mothers day gift final/mothersday-website-for-grammy\" add index.html)",
+      "Bash(git -C \"/Users/codymasumiya/Desktop/grammys mothers day gift final/mothersday-website-for-grammy\" push origin main)"
+    ]
+  }
+}
