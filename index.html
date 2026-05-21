@@ -1845,21 +1845,6 @@ I love you so much.</p>
   <p class="closing-message" id="closing-message" data-editable="" contenteditable="true" style="translate: none; rotate: none; scale: none; transform: translate(0px, 0px); opacity: 1;">Grammy, your love feeds us in ways no recipe could ever capture. Happy Mother’s Day — today, and always.</p>
   <div class="closing-signature" id="closing-signature" data-editable="" contenteditable="true" style="translate: none; rotate: none; scale: none; transform: translate(0px, 0px); opacity: 1;">I Love You Grammy ❤️</div>
 
-  <button class="music-toggle" id="music-toggle" onclick="MusicPlayer.toggle()" style="opacity: 1;">
-    <span class="music-icon">♪</span>
-    <span id="music-label">Play Ambient Music</span>
-    <div class="music-bars">
-      <div class="music-bar"></div>
-      <div class="music-bar"></div>
-      <div class="music-bar"></div>
-      <div class="music-bar"></div>
-    </div>
-  </button>
-
-  <!-- Hidden audio element — replace src with your audio file or base64 data URI -->
-  <audio id="bg-audio" loop="">
-    <!-- <source src="your-song.mp3" type="audio/mpeg"> -->
-  </audio>
 </section>
 
 <!-- ===== LIGHTBOX ===== -->
@@ -2466,37 +2451,6 @@ document.addEventListener('keydown', (e) => {
 /* =========================================
    MUSIC PLAYER
    ========================================= */
-const MusicPlayer = {
-  playing: false,
-  audio: null,
-
-  toggle() {
-    const btn = document.getElementById('music-toggle');
-    const label = document.getElementById('music-label');
-    this.audio = this.audio || document.getElementById('bg-audio');
-
-    if (!this.audio.src && !this.audio.querySelector('source')) {
-      label.textContent = 'Add audio file to enable';
-      setTimeout(() => { label.textContent = 'Play Ambient Music'; }, 2500);
-      return;
-    }
-
-    if (this.playing) {
-      this.audio.pause();
-      this.playing = false;
-      btn.classList.remove('playing');
-      label.textContent = 'Play Ambient Music';
-    } else {
-      this.audio.play().then(() => {
-        this.playing = true;
-        btn.classList.add('playing');
-        label.textContent = 'Now Playing...';
-      }).catch(() => {
-        label.textContent = 'Audio unavailable';
-      });
-    }
-  }
-};
 
 /* =========================================
    ADMIN MODE
@@ -2920,7 +2874,19 @@ const SoundFX = {
       else if (type === 'candle-blow')  this._candleBlow(c);
       else if (type === 'rocket')       this._rocket(c);
       else if (type === 'boom')         this._boom(c);
+      else if (type === 'click')        this._click(c);
     } catch(e) {}
+  },
+
+  _click(c) {
+    const osc = c.createOscillator(), g = c.createGain();
+    osc.connect(g); g.connect(c.destination);
+    osc.type = 'sine';
+    osc.frequency.setValueAtTime(520, c.currentTime);
+    osc.frequency.exponentialRampToValueAtTime(340, c.currentTime + 0.08);
+    g.gain.setValueAtTime(0.07, c.currentTime);
+    g.gain.exponentialRampToValueAtTime(0.001, c.currentTime + 0.1);
+    osc.start(c.currentTime); osc.stop(c.currentTime + 0.12);
   },
 
   _candleLight(c) {
@@ -3005,6 +2971,7 @@ const SoundFX = {
   let lit = true;
 
   document.getElementById('candle-open-btn').addEventListener('click', () => {
+    SoundFX.play('click');
     modal.classList.add('visible');
     if (!lit) relightCandle(); else SoundFX.play('candle-light');
   });
@@ -3121,7 +3088,7 @@ const SoundFX = {
     }, 4000);
   }
 
-  document.getElementById('fireworks-btn').addEventListener('click', startFireworks);
+  document.getElementById('fireworks-btn').addEventListener('click', () => { SoundFX.play('click'); startFireworks(); });
 })();
 </script>
 
